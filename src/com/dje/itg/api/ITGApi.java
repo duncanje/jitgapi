@@ -46,10 +46,12 @@ public class ITGApi {
 	* @throws UnknownHostException If senderHost could not be resolved
 	* @throws IOException If the command could not be sent
 	*/
-	public void sendCmd(String senderHost, String command) throws UnknownHostException, IOException {
+	public void sendCmd(String senderHost, String command)
+			throws UnknownHostException, IOException {
 		InetAddress sender = InetAddress.getByName(senderHost);
 		
-		DatagramPacket packet = new DatagramPacket(command.getBytes(), command.length(), sender, CONTROL_PORT);
+		DatagramPacket packet = new DatagramPacket(command.getBytes(),
+			command.length(), sender, CONTROL_PORT);
 		socket.send(packet);
 	}
 
@@ -67,6 +69,14 @@ public class ITGApi {
 		socket.receive(packet);
 		
 		return new ITGMessage(packet.getAddress(), buffer);
+	}
+	
+	/**
+	 * Closes the associated socket. This object may no longer be used once
+	 * this method is called.
+	 */
+	public void close() {
+		socket.close();
 	}
 
 }
