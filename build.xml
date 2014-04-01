@@ -1,0 +1,36 @@
+<project name="JITGApi" default="build">
+  
+  <property name="version" value="0.1" />
+  
+  <property name="bin" location="bin" />
+  <property name="doc" location="doc" />
+  <property name="src" location="src" />
+  <property name="jar" location="JITGApi-${version}.jar" />
+
+  <target name="setup">
+    <mkdir dir="${bin}" />
+  </target>
+
+  <target name="compile" depends="setup">
+    <javac includeantruntime="false" srcdir="${src}/com/dje/itg/api"
+		destdir="${bin}" />
+  </target>
+
+  <target name="build" depends="compile">
+    <jar destfile="${jar}">
+      <fileset dir="${bin}" />
+    </jar>
+  </target>
+  
+  <target name="doc">
+	<javadoc sourcepath="${src}" packagenames="com.dje.itg.api" destdir="${doc}"
+		windowtitle="JITGApi Documentation" use="true" />
+  </target>
+
+  <target name="clean">
+    <delete dir="${bin}" />
+    <delete dir="${doc}" />
+    <delete file="${jar}" />
+  </target>
+
+</project>
