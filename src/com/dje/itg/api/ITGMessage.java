@@ -55,18 +55,22 @@ public class ITGMessage {
 	 * Parses message contents from buffer
 	 */
 	protected ITGMessage(InetAddress sender, byte[] buffer) {
-		switch (buffer[MSG_TYPE_OFFSET]) {
-			case GEN_START_CODE:
-				this.type = Type.GEN_START;
-				break;
+		try {
+			switch (buffer[MSG_TYPE_OFFSET]) {
+				case GEN_START_CODE:
+					this.type = Type.GEN_START;
+					break;
+				
+				case GEN_END_CODE:
+					this.type = Type.GEN_END;
+					break;
+			}
 			
-			case GEN_END_CODE:
-				this.type = Type.GEN_END;
-				break;
+			this.sender = sender.getHostName();
+			this.message = new String(buffer, MSG_OFFSET, buffer[MSG_LENGTH_OFFSET]);
+		} catch (Exception e) {
+			System.err.println("Failed to parse message");
 		}
-		
-		this.sender = sender.getHostName();
-		this.message = new String(buffer, MSG_OFFSET, buffer[MSG_LENGTH_OFFSET]);
 	}
 	
 	/**
