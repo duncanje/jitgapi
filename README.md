@@ -7,7 +7,7 @@
 ### Build
      ant
 
-### [Documentation](https://duncanje.github.io/jitgapi/doc/0.1)
+### [Documentation](https://duncanje.github.io/jitgapi/doc/0.2)
 	ant doc
 
 ### License

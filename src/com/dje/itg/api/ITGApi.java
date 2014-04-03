@@ -25,14 +25,22 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * Implementation of API operations
+ */
 public class ITGApi {
 
-	public final static int
-		CONTROL_PORT = 8998,
-		PACKET_LENGTH = 300; /* Same as official C++ API */
+	public final static int CONTROL_PORT = 8998;
+	
+	private final static int PACKET_LENGTH = 300; /* Same as official C++ API */
 
 	private DatagramSocket socket;
 
+	/**
+	 * Construct API object
+	 * 
+	 * @throws IOException If socket could not be created
+	 */
 	public ITGApi() throws IOException {
 		socket = new DatagramSocket();
 	}

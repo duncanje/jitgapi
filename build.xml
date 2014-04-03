@@ -1,6 +1,6 @@
 <project name="JITGApi" default="build">
   
-  <property name="version" value="0.1" />
+  <property name="version" value="0.2" />
   
   <property name="bin" location="bin" />
   <property name="doc" location="doc" />
