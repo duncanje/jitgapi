@@ -9,6 +9,9 @@
 
 ### [Documentation](https://duncanje.github.io/jitgapi/doc/0.2)
 	ant doc
+	
+### Libraries
+- [JUnit](http://junit.org)
 
 ### License
 GPL v3
