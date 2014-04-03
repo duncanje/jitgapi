@@ -69,8 +69,11 @@ public class ITGApi {
 	* @return An {@link ITGMessage} object representing the message
 	* 
 	* @throws IOException If a message could not be received
+	* @throws NullPointerException If a message wasn't received correctly
+	* @throws IndexOutOfBoundsException If a message was malformed
 	*/
-	public ITGMessage catchMsg() throws IOException {
+	public ITGMessage catchMsg()
+			throws IOException, NullPointerException, IndexOutOfBoundsException {
 		byte[] buffer = new byte[PACKET_LENGTH];
 		
 		DatagramPacket packet = new DatagramPacket(buffer, buffer.length);
