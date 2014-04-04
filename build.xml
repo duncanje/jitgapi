@@ -35,7 +35,7 @@
 	</target>
 
 	<target name="compile-tests" depends="setup-tests">
-		<javac includeantruntime="false" srcdir="${test_src}/com/dje/itg/api"
+		<javac debug="true" includeantruntime="false" srcdir="${test_src}/com/dje/itg/api"
 			destdir="${test_bin}">
 			<classpath>
 				<pathelement location="${bin}" />
