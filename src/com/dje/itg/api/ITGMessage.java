@@ -55,11 +55,15 @@ public class ITGMessage {
 	/** 
 	 * Parses message contents from buffer
 	 * 
-	 * @throws NullPointerException			If any parameters are null
-	 * @throws IndexOutOfBoundsException	If message length is larger than buffer
+	 * @throws NullPointerException If any parameters are null
+	 * @throws IndexOutOfBoundsException If message length is larger than buffer
 	 */
 	protected ITGMessage(InetAddress sender, byte[] buffer)
-		throws NullPointerException, IndexOutOfBoundsException {
+			throws IllegalArgumentException, IndexOutOfBoundsException {
+			
+		if (sender == null || buffer == null)
+			throw new IllegalArgumentException("null argument(s)");
+		
 		switch (buffer[MSG_TYPE_OFFSET]) {
 			case GEN_START_CODE:
 				this.type = Type.GEN_START;
@@ -69,9 +73,6 @@ public class ITGMessage {
 				this.type = Type.GEN_END;
 				break;
 		}
-		
-		if (sender == null)
-			throw new NullPointerException("sender is null");
 			
 		this.sender = sender;
 		this.message = new String(buffer, MSG_OFFSET, buffer[MSG_LENGTH_OFFSET]);
