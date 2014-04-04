@@ -70,21 +70,21 @@ public class ITGMessageTest {
 			new ITGMessage(sender, null);
 			fail("No exception thrown");
 		} catch (Exception e) {
-			assertTrue(e instanceof NullPointerException);
+			assertTrue(e instanceof IllegalArgumentException);
 		}
 		
 		try {
 			new ITGMessage(null, goodStartBuffer);
 			fail("No exception thrown");
 		} catch (Exception e) {
-			assertTrue(e instanceof NullPointerException);
+			assertTrue(e instanceof IllegalArgumentException);
 		}
 		
 		try {
 			new ITGMessage(null, null);
 			fail("No exception thrown");
 		} catch (Exception e) {
-			assertTrue(e instanceof NullPointerException);
+			assertTrue(e instanceof IllegalArgumentException);
 		}
 	}
 	

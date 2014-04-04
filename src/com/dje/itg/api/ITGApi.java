@@ -46,9 +46,23 @@ public class ITGApi {
 	}
 
 	/**
-	* Send an D-ITG command to a sender
+	* Send an D-ITG command to an ITGSend process
 	* 
-	* @param senderHost		The IP address/hostname of the sender
+	* @param senderHost		The InetAddress representing the ITGSend host
+	* @param command		The command the sender should run
+	* 
+	* @throws IOException If the command could not be sent
+	*/
+	public void sendCmd(InetAddress senderHost, String command) throws IOException {		
+		DatagramPacket packet = new DatagramPacket(command.getBytes(),
+			command.length(), senderHost, CONTROL_PORT);
+		socket.send(packet);
+	}
+
+	/**
+	* Send an D-ITG command to an ITGSend process
+	* 
+	* @param senderHost		The IP address/hostname of the ITGSend host
 	* @param command		The command the sender should run
 	* 
 	* @throws UnknownHostException If senderHost could not be resolved
@@ -57,10 +71,7 @@ public class ITGApi {
 	public void sendCmd(String senderHost, String command)
 			throws UnknownHostException, IOException {
 		InetAddress sender = InetAddress.getByName(senderHost);
-		
-		DatagramPacket packet = new DatagramPacket(command.getBytes(),
-			command.length(), sender, CONTROL_PORT);
-		socket.send(packet);
+		sendCmd(sender, command);
 	}
 
 	/**
