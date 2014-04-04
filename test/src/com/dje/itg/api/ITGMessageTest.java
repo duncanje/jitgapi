@@ -1,3 +1,22 @@
+/*
+*	This file is part of JITGApi.
+* 
+*	Copyright 2014 Duncan Eastoe <duncaneastoe@gmail.com>
+*
+*   JITGApi is free software: you can redistribute it and/or modify
+*   it under the terms of the GNU General Public License as published by
+*   the Free Software Foundation, either version 3 of the License, or
+*   (at your option) any later version.
+*
+*   JITGApi is distributed in the hope that it will be useful,
+*   but WITHOUT ANY WARRANTY; without even the implied warranty of
+*   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+*   GNU General Public License for more details.
+*
+*   You should have received a copy of the GNU General Public License
+*   along with JITGApi.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 package com.dje.itg.api;
 
 import static org.junit.Assert.*;
@@ -16,8 +35,6 @@ public class ITGMessageTest {
 	private byte[] goodStartBuffer, goodEndBuffer, badBuffer;
 	
 	private ITGMessage startMessage, endMessage;
-	
-	private String message;
 
 	@Before
 	public void setUp() {
@@ -27,21 +44,14 @@ public class ITGMessageTest {
 			fail("Failed to get localhost InetAddress");
 		}
 		
-		message = "-a localhost -rp 10000 VoIP";
-		
-		goodStartBuffer = new byte[ITGTestConstants.BUFFER_LENGTH];
-		goodStartBuffer[ITGTestConstants.TYPE_OFFSET] = 1;
-		goodStartBuffer[ITGTestConstants.LENGTH_OFFSET] = (byte) message.length();
-		insertIntoBuffer(message, ITGTestConstants.MESSAGE_OFFSET, goodStartBuffer);
-		
-		goodEndBuffer = new byte[ITGTestConstants.BUFFER_LENGTH];
-		goodEndBuffer[ITGTestConstants.TYPE_OFFSET] = 2;
-		goodEndBuffer[ITGTestConstants.LENGTH_OFFSET] = (byte) message.length();
-		insertIntoBuffer(message, ITGTestConstants.MESSAGE_OFFSET, goodEndBuffer);
-		
-		badBuffer = new byte[ITGTestConstants.BUFFER_LENGTH];
-		badBuffer[ITGTestConstants.TYPE_OFFSET] = 1;
-		badBuffer[ITGTestConstants.LENGTH_OFFSET] = (byte) 400;
+		goodStartBuffer = ITGTestUtils.createBuffer(ITGTestUtils.START_TYPE,
+			ITGTestUtils.commandOne.length(), ITGTestUtils.commandOne);
+			
+		goodEndBuffer = ITGTestUtils.createBuffer(ITGTestUtils.END_TYPE,
+			ITGTestUtils.commandOne.length(), ITGTestUtils.commandOne);
+			
+		badBuffer = ITGTestUtils.createBuffer(ITGTestUtils.START_TYPE,
+			400, ITGTestUtils.commandOne);
 		
 		testConstructor();
 	}
@@ -59,6 +69,9 @@ public class ITGMessageTest {
 			fail("Failed to create ITGMessage with goodEndBuffer");
 		}
 		
+		/*
+		 * Test passing bad parameters
+		 */
 		try {
 			new ITGMessage(sender, badBuffer);
 			fail("No exception thrown");
@@ -102,10 +115,13 @@ public class ITGMessageTest {
 	
 	@Test
 	public void testGetMessage() {
-		assertEquals(startMessage.getMessage(), message);
-		assertEquals(endMessage.getMessage(), message);
+		assertEquals(startMessage.getMessage(), ITGTestUtils.commandOne);
+		assertEquals(endMessage.getMessage(), ITGTestUtils.commandOne);
 	}
 	
+	/*
+	 * Test output of toString() by comparing to expected output
+	 */
 	@Test
 	public void testToString() {
 		assertEquals(startMessage.toString(), "[Start message from " +
@@ -113,11 +129,6 @@ public class ITGMessageTest {
 			
 		assertEquals(endMessage.toString(), "[End message from " +
 			sender.getHostName() + "] " + endMessage.getMessage());
-	}
-	
-	private static void insertIntoBuffer(String message, int offset, byte[] buffer) {
-		for (byte character : message.getBytes())
-			buffer[offset++] = character;
 	}
 	
 }

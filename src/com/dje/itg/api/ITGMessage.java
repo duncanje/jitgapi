@@ -55,7 +55,7 @@ public class ITGMessage {
 	/** 
 	 * Parses message contents from buffer
 	 * 
-	 * @throws NullPointerException If any parameters are null
+	 * @throws IllegalArgumentException If any parameters are null
 	 * @throws IndexOutOfBoundsException If message length is larger than buffer
 	 */
 	protected ITGMessage(InetAddress sender, byte[] buffer)
