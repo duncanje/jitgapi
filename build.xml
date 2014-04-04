@@ -53,13 +53,23 @@
 				<pathelement location="${junit}" />
 				<pathelement location="${hamcrest}" />
 			</classpath>
-		<batchtest>
+		<batchtest failureproperty="tests_failed">
 			<fileset dir="${test_bin}">
 				<include name="**/*Test.class" />
 			</fileset>
 			<formatter type="plain" usefile="false" />
 		</batchtest>
 		</junit>
+		
+		<antcall target="-tests_passed" />
+	</target>
+	
+	<target name="-tests_passed" unless="tests_failed">
+		<echo>
+		************
+		TESTS PASSED
+		************
+		</echo>
 	</target>
 	<!-- End tests -->
 
