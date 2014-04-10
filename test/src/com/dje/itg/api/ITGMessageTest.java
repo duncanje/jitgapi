@@ -119,6 +119,20 @@ public class ITGMessageTest {
 		assertEquals(endMessage.getMessage(), ITGTestUtils.commandOne);
 	}
 	
+	@Test
+	public void testEquals() {
+		assertFalse(startMessage.equals(null));
+		assertFalse(startMessage.equals(sender));
+		
+		assertFalse(startMessage.equals(endMessage));
+		assertFalse(endMessage.equals(startMessage));
+		
+		assertTrue(startMessage.equals(startMessage));
+		assertTrue(endMessage.equals(endMessage));
+		
+		assertTrue(startMessage.equals(new ITGMessage(sender, goodStartBuffer)));
+	}
+	
 	/*
 	 * Test output of toString() by comparing to expected output
 	 */
