@@ -27,6 +27,7 @@ import org.junit.Before;
 import com.dje.itg.api.ITGMessage;
 import com.dje.itg.api.ITGApi;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.DatagramPacket;
 import java.util.Arrays;
@@ -171,6 +172,28 @@ public class ITGApiTest {
 		assertEquals(itgMessage.getType(), ITGMessage.Type.GEN_START);
 		assertEquals(itgMessage.getSender(), sender);
 		assertEquals(itgMessage.getMessage(), ITGTestUtils.commandOne);
+	}
+	
+	/*
+	 * Test the close method
+	 */
+	@Test
+	public void testClose() {
+		mockApi.close();
+		
+		try {
+			mockApi.catchMsg();
+			fail("No exception thrown");
+		} catch (Exception e) {
+			assertTrue(e instanceof IOException);
+		}
+		
+		try {
+			mockApi.sendCmd("localhost", ITGTestUtils.commandOne);
+			fail("No exception thrown");
+		} catch (Exception e) {
+			assertTrue(e instanceof IOException);
+		}
 	}
 	
 }

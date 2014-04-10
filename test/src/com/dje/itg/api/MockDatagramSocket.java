@@ -19,6 +19,7 @@
 
 package com.dje.itg.api;
 
+import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.DatagramPacket;
 import java.net.SocketException;
@@ -26,14 +27,23 @@ import java.net.SocketException;
 public class MockDatagramSocket extends DatagramSocket {
 	
 	private DatagramPacket lastSentPacket, packetForRetrieval;
+	private boolean closed = false;
 
 	public MockDatagramSocket() throws SocketException {}
+	
+	@Override
+	public void close() {
+		closed = true;
+	}
 	
 	/*
 	 * Stores the passed packet for later retrieval
 	 */
 	@Override
-	public void send(DatagramPacket packet) {
+	public void send(DatagramPacket packet) throws IOException {
+		if (closed)
+			throw new IOException();
+		
 		lastSentPacket = packet;
 	}
 	
@@ -48,7 +58,10 @@ public class MockDatagramSocket extends DatagramSocket {
 	 * Copies the previously provided packet's data to the passed packet
 	 */
 	@Override
-	public void receive(DatagramPacket packet) {
+	public void receive(DatagramPacket packet) throws IOException {
+		if (closed)
+			throw new IOException();
+		
 		System.arraycopy(packetForRetrieval.getData(), 0,
 			packet.getData(), 0, packetForRetrieval.getData().length);
 		packet.setLength(packetForRetrieval.getLength());

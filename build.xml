@@ -61,10 +61,10 @@
 		</batchtest>
 		</junit>
 		
-		<antcall target="-tests_passed" />
+		<antcall target="-final_test_result" />
 	</target>
 	
-	<target name="-tests_passed" unless="tests_failed">
+	<target name="-final_test_result" unless="tests_failed">
 		<echo>
 		************
 		TESTS PASSED
