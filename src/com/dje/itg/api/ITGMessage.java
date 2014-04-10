@@ -97,6 +97,25 @@ public class ITGMessage {
 	}
 	
 	/**
+	 * Compare ITGMessage objects
+	 * 
+	 * @return true if the passed ITGMessage's type, sender and message are equal
+	 * to this ITGMessage. Otherwise false.
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ITGMessage) {
+			ITGMessage comparison = (ITGMessage) o;
+			
+			return getType().equals(comparison.getType()) &&
+				getSender().equals(comparison.getSender()) &&
+				getMessage().equals(comparison.getMessage());
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Get the message contents
 	 * 
 	 * @return The content of the message
