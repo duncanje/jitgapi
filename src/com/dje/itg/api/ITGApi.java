@@ -25,34 +25,71 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+/**
+ * Implementation of API operations
+ */
 public class ITGApi {
 
-	public final static int
-		CONTROL_PORT = 8998,
-		PACKET_LENGTH = 300; /* Same as official C++ API */
+	public final static int CONTROL_PORT = 8998;
+	
+	private final static int PACKET_LENGTH = 300; /* Same as official C++ API */
 
 	private DatagramSocket socket;
 
+	/**
+	 * Construct API object
+	 * 
+	 * @throws IOException If socket could not be created
+	 */
 	public ITGApi() throws IOException {
-		socket = new DatagramSocket();
+		this(new DatagramSocket());
+	}
+	
+	/*
+	 * Only called externally for unit tests
+	 */
+	protected ITGApi(DatagramSocket socket) {
+		if (socket == null)
+			throw new IllegalArgumentException("null argument");
+		this.socket = socket;
 	}
 
 	/**
-	* Send an D-ITG command to a sender
+	* Send an D-ITG command to an ITGSend process
 	* 
-	* @param senderHost		The IP address/hostname of the sender
+	* @param senderHost	The InetAddress representing the ITGSend host
+	* @throws IllegalArgumentException If any parameters are null
+	* @param command The command the sender should run
+	* 
+	* @throws IOException If the command could not be sent
+	*/
+	public void sendCmd(InetAddress senderHost, String command)
+			throws IOException, IllegalArgumentException {
+		if (senderHost == null || command == null)
+			throw new IllegalArgumentException("null arguments");
+		
+		DatagramPacket packet = new DatagramPacket(command.getBytes(),
+			command.length(), senderHost, CONTROL_PORT);
+		socket.send(packet);
+	}
+
+	/**
+	* Send an D-ITG command to an ITGSend process
+	* 
+	* @param senderHost		The IP address/hostname of the ITGSend host
 	* @param command		The command the sender should run
 	* 
 	* @throws UnknownHostException If senderHost could not be resolved
+	* @throws IllegalArgumentException If any parameters are null
 	* @throws IOException If the command could not be sent
 	*/
 	public void sendCmd(String senderHost, String command)
-			throws UnknownHostException, IOException {
-		InetAddress sender = InetAddress.getByName(senderHost);
+			throws UnknownHostException, IllegalArgumentException, IOException {
+		if (senderHost == null)
+			throw new IllegalArgumentException("null arguments");
 		
-		DatagramPacket packet = new DatagramPacket(command.getBytes(),
-			command.length(), sender, CONTROL_PORT);
-		socket.send(packet);
+		InetAddress sender = InetAddress.getByName(senderHost);
+		sendCmd(sender, command);
 	}
 
 	/**
@@ -61,8 +98,11 @@ public class ITGApi {
 	* @return An {@link ITGMessage} object representing the message
 	* 
 	* @throws IOException If a message could not be received
+	* @throws IllegalArgumentException If a message wasn't received correctly
+	* @throws IndexOutOfBoundsException If a message was malformed
 	*/
-	public ITGMessage catchMsg() throws IOException {
+	public ITGMessage catchMsg()
+			throws IOException, IllegalArgumentException, IndexOutOfBoundsException {
 		byte[] buffer = new byte[PACKET_LENGTH];
 		
 		DatagramPacket packet = new DatagramPacket(buffer, buffer.length);

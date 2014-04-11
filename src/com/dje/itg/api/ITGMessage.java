@@ -21,25 +21,60 @@ package com.dje.itg.api;
 
 import java.net.InetAddress;
 
+/**
+ * Represents a message received from an ITGSend instance
+ */
 public class ITGMessage {
 
-	/* Message types */
-	public final static int
-		START_MSG = 1,
-		END_MSG = 2;
+	/**
+	 * Types of message that may be received
+	 */
+	public enum Type {
+		/** Traffic generation has started */
+		GEN_START,
+		
+		/** Traffic generation has ended */
+		GEN_END
+	}
+
+	/* Message type codes */
+	private final static int
+		GEN_START_CODE = 1,
+		GEN_END_CODE = 2;
 		
 	/* Byte offsets for message buffer */
-	public final static int
+	private final static int
 		MSG_TYPE_OFFSET	= 0,
 		MSG_LENGTH_OFFSET = 4,
 		MSG_OFFSET = 8;
 
-	private int type;
-	private String sender, message;
+	private InetAddress sender;
+	private Type type;
+	private String message;
 
-	protected ITGMessage(InetAddress sender, byte[] buffer) {
-		this.type = buffer[MSG_TYPE_OFFSET];
-		this.sender = sender.getHostName();
+	/** 
+	 * Parses message contents from buffer
+	 * 
+	 * @throws IllegalArgumentException If any parameters are null
+	 * @throws IndexOutOfBoundsException If message length is larger than buffer
+	 */
+	protected ITGMessage(InetAddress sender, byte[] buffer)
+			throws IllegalArgumentException, IndexOutOfBoundsException {
+			
+		if (sender == null || buffer == null)
+			throw new IllegalArgumentException("null argument(s)");
+		
+		switch (buffer[MSG_TYPE_OFFSET]) {
+			case GEN_START_CODE:
+				this.type = Type.GEN_START;
+				break;
+			
+			case GEN_END_CODE:
+				this.type = Type.GEN_END;
+				break;
+		}
+			
+		this.sender = sender;
 		this.message = new String(buffer, MSG_OFFSET, buffer[MSG_LENGTH_OFFSET]);
 	}
 	
@@ -48,7 +83,7 @@ public class ITGMessage {
 	 * 
 	 * @return The type of message
 	 */
-	public int getType() {
+	public Type getType() {
 		return type;
 	}
 	
@@ -57,8 +92,27 @@ public class ITGMessage {
 	 * 
 	 * @return The sender of the message
 	 */
-	public String getSender() {
+	public InetAddress getSender() {
 		return sender;
+	}
+	
+	/**
+	 * Compare ITGMessage objects
+	 * 
+	 * @return true if the passed ITGMessage's type, sender and message are equal
+	 * to this ITGMessage. Otherwise false.
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (o instanceof ITGMessage) {
+			ITGMessage comparison = (ITGMessage) o;
+			
+			return getType().equals(comparison.getType()) &&
+				getSender().equals(comparison.getSender()) &&
+				getMessage().equals(comparison.getMessage());
+		}
+		
+		return false;
 	}
 	
 	/**
@@ -75,16 +129,16 @@ public class ITGMessage {
 		String out = "[";
 
 		switch (type) {
-			case START_MSG:
+			case GEN_START:
 				out += "Start";
 				break;
 		
-			case END_MSG:
+			case GEN_END:
 				out += "End";
 				break;
 		}
 
-		out += " message from " + sender + "] " + message;
+		out += " message from " + sender.getHostName() + "] " + message;
 		return out;
 	}
 
