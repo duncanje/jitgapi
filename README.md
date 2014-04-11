@@ -10,6 +10,9 @@
 ### [Documentation](https://duncanje.github.io/jitgapi/doc/0.2)
 	ant doc
 	
+### Unit Test
+	ant test
+	
 ### Libraries
 - [JUnit](http://junit.org)
 
