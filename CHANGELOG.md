@@ -3,6 +3,7 @@
 - Improved JavaDoc
 - ITGMessage.getSender() now returns an InetAddress object
 - ITGApi.sendCmd(...) is now overloaded - sender can be passed as a String or InetAddress
+- Added ITGMessage.equals(...)
 - Changed various constant visibilities
 - New exceptions thrown
 - Unit testing
