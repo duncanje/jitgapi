@@ -1,6 +1,6 @@
 <project name="JITGApi" default="build">
 
-	<property name="version" value="0.2" />
+	<property name="version" value="0.2.1" />
 
 	<property name="bin" location="bin" />
 	<property name="doc" location="doc" />
@@ -19,7 +19,7 @@
 	</target>
 
 	<target name="compile" depends="setup">
-		<javac includeantruntime="false" srcdir="${src}/com/dje/itg/api"
+		<javac includeantruntime="false" srcdir="${src}/uk/org/eastoe/duncan/itg/api"
 			destdir="${bin}" />
 	</target>
 
@@ -35,7 +35,7 @@
 	</target>
 
 	<target name="compile-tests" depends="setup-tests">
-		<javac debug="true" includeantruntime="false" srcdir="${test_src}/com/dje/itg/api"
+		<javac debug="true" includeantruntime="false" srcdir="${test_src}/uk/org/eastoe/duncan/itg/api"
 			destdir="${test_bin}">
 			<classpath>
 				<pathelement location="${bin}" />
@@ -74,7 +74,7 @@
 	<!-- End tests -->
 
 	<target name="doc">
-		<javadoc sourcepath="${src}" packagenames="com.dje.itg.api" destdir="${doc}"
+		<javadoc sourcepath="${src}" packagenames="uk.org.eastoe.duncan.itg.api" destdir="${doc}"
 			windowtitle="JITGApi Documentation" use="true" />
 	</target>
 
