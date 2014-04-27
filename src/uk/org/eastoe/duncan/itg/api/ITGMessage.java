@@ -17,7 +17,7 @@
 *   along with JITGApi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.dje.itg.api;
+package uk.org.eastoe.duncan.itg.api;
 
 import java.net.InetAddress;
 
@@ -97,6 +97,15 @@ public class ITGMessage {
 	}
 	
 	/**
+	 * Get the message contents
+	 * 
+	 * @return The content of the message
+	 */
+	public String getMessage() {
+		return message;
+	}
+	
+	/**
 	 * Compare ITGMessage objects
 	 * 
 	 * @return true if the passed ITGMessage's type, sender and message are equal
@@ -113,15 +122,6 @@ public class ITGMessage {
 		}
 		
 		return false;
-	}
-	
-	/**
-	 * Get the message contents
-	 * 
-	 * @return The content of the message
-	 */
-	public String getMessage() {
-		return message;
 	}
 
 	@Override

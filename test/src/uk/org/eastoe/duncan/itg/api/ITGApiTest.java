@@ -17,7 +17,7 @@
 *   along with JITGApi.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-package com.dje.itg.api;
+package uk.org.eastoe.duncan.itg.api;
 
 import static org.junit.Assert.*;
 
