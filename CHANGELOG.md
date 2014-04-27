@@ -1,3 +1,6 @@
+### 0.2.1
+- Changed package name to uk.org.eastoe.duncan.itg.api.*
+
 ### 0.2
 - Introduced ITGMessage.Type to represent message types
 - Improved JavaDoc
