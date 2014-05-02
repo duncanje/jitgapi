@@ -1,3 +1,6 @@
+### 0.2.2
+- Fix tests
+
 ### 0.2.1
 - Changed package name to uk.org.eastoe.duncan.itg.api.*
 
