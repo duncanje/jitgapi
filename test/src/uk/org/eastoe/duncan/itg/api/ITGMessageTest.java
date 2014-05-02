@@ -24,8 +24,8 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.junit.Before;
 
-import com.dje.itg.api.ITGMessage;
-import com.dje.itg.api.ITGApi;
+import uk.org.eastoe.duncan.itg.api.ITGMessage;
+import uk.org.eastoe.duncan.itg.api.ITGApi;
 
 import java.net.InetAddress;
 
