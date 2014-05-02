@@ -1,6 +1,6 @@
 <project name="JITGApi" default="build">
 
-	<property name="version" value="0.2.1" />
+	<property name="version" value="0.2.2" />
 
 	<property name="bin" location="bin" />
 	<property name="doc" location="doc" />
@@ -82,7 +82,9 @@
 		<delete dir="${bin}" />
 		<delete dir="${test_bin}" />
 		<delete dir="${doc}" />
-		<delete file="${jar}" />
+		<delete>
+			<fileset dir="." includes="*.jar" />
+		</delete>
 	</target>
 
 </project>

@@ -7,7 +7,7 @@
 ### Build
      ant
 
-### [Documentation](https://duncanje.github.io/jitgapi/doc/0.2.1)
+### [Documentation](https://duncanje.github.io/jitgapi/doc/0.2.2)
 	ant doc
 	
 ### Unit Test
