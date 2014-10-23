@@ -53,7 +53,7 @@
 				<pathelement location="${junit}" />
 				<pathelement location="${hamcrest}" />
 			</classpath>
-		<batchtest failureproperty="tests_failed">
+		<batchtest failureproperty="tests_failed" haltonfailure="yes" haltonerror="yes">
 			<fileset dir="${test_bin}">
 				<include name="**/*Test.class" />
 			</fileset>
